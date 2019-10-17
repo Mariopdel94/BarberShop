@@ -10,9 +10,8 @@ import { NgForm } from '@angular/forms';
   templateUrl: 'home.html'
 })
 export class HomePage {
-  @ViewChild('customerForm') public customerForm: NgForm;
-  public customer = new Customer();
-  public alertOptions: AlertOptions;
+  @ViewChild('customerForm') public customerForm: NgForm; // The customer NgForm, will be used to reset the form when submitting.
+  public customer = new Customer(); // The customer object created on the form
   public barbers: Barber[] = [
     {
       id: 0,
@@ -30,8 +29,8 @@ export class HomePage {
     //   id: 3,
     //   name: 'Jane Doe'
     // }
-  ].map(barber => Barber.parse(barber));
-  public selectedBarber: Barber = this.barbers[0];
+  ].map(barber => Barber.parse(barber)); // Let's parse it so we transform it into a Barber object
+  public selectedBarber: Barber = this.barbers[0]; // This will make the form have a preselected option on the dropdown.
 
   constructor(
     public navCtrl: NavController,
@@ -40,6 +39,10 @@ export class HomePage {
   ) {}
 
   public onSubmit() {
+    /*
+      When clicking on submit button, increment the place in line of the customers and assign it to the new customer.
+      Can't be the ID because the ID will never stop incrementing, but the place in line could be 1 multiple times.
+    */
     this.customer.placeInLine = ++this.homeDataProvider.currentCustomers;
     this.seatCustomer();
   }
@@ -50,10 +53,13 @@ export class HomePage {
   }
 
   private async seatCustomer() {
+    /* First assign the message that will be displayed on the alert. The message changes if the customer selected a prefered barber or not */
     let message = `Hello ${this.customer.fullName}! Your customer number is ${this.customer.placeInLine}.`;
     if (this.selectedBarber.id) {
       message = `Hello ${this.customer.fullName}! Your customer number is ${this.customer.placeInLine}. You are waiting for ${this.selectedBarber.name}`;
     }
+
+    /* Create the alert and reset the form if user accepts. If user cancels, leave the form as it is, in case the customer wants to make any changes. */
     const alert = await this.alertController.create({
       title: 'You are on line!',
       message,
@@ -74,6 +80,8 @@ export class HomePage {
         }
       ]
     });
+
+    /* Display the alert */
     await alert.present();
   }
 
