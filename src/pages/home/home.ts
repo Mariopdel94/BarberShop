@@ -20,16 +20,16 @@ export class HomePage {
     },
     {
       id: 1,
-      name: 'John Doe'
+      name: 'Joe'
     },
     {
       id: 2,
-      name: 'Jack Shave'
+      name: 'Gary'
     },
-    {
-      id: 3,
-      name: 'Jane Doe'
-    }
+    // {
+    //   id: 3,
+    //   name: 'Jane Doe'
+    // }
   ].map(barber => Barber.parse(barber));
   public selectedBarber: Barber = this.barbers[0];
 
