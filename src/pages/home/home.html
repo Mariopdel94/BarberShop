@@ -1,17 +1,40 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Home</ion-title>
+    <ion-title>Cut 'N' Shave Barbershop</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <h2>Welcome to Ionic!</h2>
+  <h2>Welcome!</h2>
   <p>
-    This starter project comes with simple tabs-based layout for apps
-    that are going to primarily use a Tabbed UI.
+    Please enter your information on the next form to be seated.
   </p>
-  <p>
-    Take a look at the <code>src/pages/</code> directory to add or change tabs,
-    update any existing page or create new pages.
-  </p>
+   <form (ngSubmit)="onSubmit()" #customerForm="ngForm">
+    <ion-item>
+      <ion-label>Full name</ion-label>
+      <ion-input
+      required
+      type="text"
+      [(ngModel)]="customer.fullName"
+      name="name"
+      placeholder="John Doe">
+    </ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Phone number</ion-label>
+      <ion-input
+      type="tel"
+      [(ngModel)]="customer.phoneNumber"
+      name="phone"
+      placeholder="(555) 555-5555">
+    </ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Barber</ion-label>
+      <ion-select [(ngModel)]="selectedBarber" name="selectedBarber" required value="0" okText="Ok" cancelText="Cancel">
+        <ion-option [value]="barber" *ngFor="let barber of barbers">{{ barber.name }}</ion-option>
+      </ion-select>
+    </ion-item>
+    <button class="submit-button" ion-button type="submit" block [disabled]="customerForm.form.invalid">Submit</button>
+  </form>
 </ion-content>

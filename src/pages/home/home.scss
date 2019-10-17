@@ -1,3 +1,15 @@
 page-home {
+  ion-item {
+    padding: 0 !important;
+  }
 
+  ion-input {
+    input {
+      text-align: right;
+    }
+  }
+
+  .submit-button {
+    margin-top: 1rem;
+  }
 }
