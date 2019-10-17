@@ -1,6 +1,6 @@
 import { HomeDataProvider } from './../../providers/home-data/home-data';
 import { Component, ViewChild } from '@angular/core';
-import { NavController, AlertController, AlertOptions } from 'ionic-angular';
+import { NavController, AlertController } from 'ionic-angular';
 import { Customer } from '../../app/models/customer.model';
 import { Barber } from '../../app/models/barber.model';
 import { NgForm } from '@angular/forms';
