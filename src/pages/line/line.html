@@ -1,11 +1,33 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      About
+      Waiting Line
     </ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
+
+  <ion-row>
+    <ion-col col-12>
+      <ion-searchbar
+      debounce="500"
+      mode="ios"
+      placeholder="Search..."
+      autocomplete>
+      </ion-searchbar>
+    </ion-col>
+  </ion-row>
+
+  <ion-row class="list-container">
+    <ion-col col-12 *ngFor="let lineItem of [1,2,3,4]">
+      <ion-card mode="ios" class="customer-card">
+        <ion-card-header>
+          <div class="customer-name">Nombre del cliente</div>
+          <div class="barber"><b>Barber: </b>Nombre del barbero</div>
+        </ion-card-header>
+      </ion-card>
+    </ion-col>
+  </ion-row>
 
 </ion-content>

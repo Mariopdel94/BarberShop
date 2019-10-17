@@ -1,3 +1,35 @@
 page-line {
 
+  ion-row {
+    margin-bottom: 1rem;
+  }
+
+  ion-col {
+    padding: 0 !important;
+  }
+
+  ion-searchbar {
+    background: white !important;
+  }
+
+  .list-container {
+    padding-left: 2rem;
+
+    .customer-card {
+      overflow: visible;
+      margin-bottom: 0;
+
+      .customer-name {
+        font-size: 1.6rem;
+        font-weight: bold;
+      }
+
+      .barber {
+        font-size: 1.2rem;
+        color: #a4a4a4;
+      }
+    }
+  }
+
+
 }
