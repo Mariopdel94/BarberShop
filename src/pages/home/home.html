@@ -1,11 +1,14 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Cut 'N' Shave Barbershop</ion-title>
+    <ion-title mode="md">Cut 'N' Shave Barbershop</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <h2>Welcome!</h2>
+  <div class="round-container">
+    <div class="round-background"></div>
+  </div>
+  <h2 class="welcome-message">Welcome!</h2>
   <p>
     Please enter your information on the next form to be seated.
   </p>
@@ -30,7 +33,7 @@
     </ion-input>
     </ion-item>
     <ion-item>
-      <ion-label>Barber *</ion-label>
+      <ion-label>Barber</ion-label>
       <ion-select [(ngModel)]="selectedBarber" name="selectedBarber" required value="0" okText="Ok" cancelText="Cancel">
         <ion-option [value]="barber" *ngFor="let barber of barbers">{{ barber.name }}</ion-option>
       </ion-select>

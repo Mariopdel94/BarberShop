@@ -1,12 +1,32 @@
 page-home {
+
+  ion-content {
+    &::before {
+      content: '';
+      position: absolute;
+      width: 80vw;
+      height: 80vw;
+      background: linear-gradient(rgba(#3171e0, 0.33), rgba(#0cd1e8, 0.20));
+      z-index: 1;
+      border-radius: 50%;
+      bottom: -30vw;
+      right: -10vw;
+    }
+  }
+
   ion-item {
-    padding: 0 !important;
+    margin-bottom: 1rem !important;
+    font-size: 1.4rem !important;
   }
 
   ion-input {
     input {
       text-align: right;
     }
+  }
+
+  .welcome-message {
+    margin-top: 2rem !important;
   }
 
   .submit-button {

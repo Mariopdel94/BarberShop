@@ -86,3 +86,24 @@ $colors: (
 
 @import "roboto";
 @import "noto-sans";
+
+// Misc 
+ion-content {
+  background-color: #f8faff !important;
+}
+
+$font-family-base: 'Montserrat', sans-serif !important;
+
+*:not(ion-icon) {
+  font-family: $font-family-base;
+}
+
+.toolbar-background,
+.toolbar-background-md,
+.toolbar-background-ios {
+  background-color: #3880ff !important;
+  background: #3880ff !important;
+}
+
+$toolbar-ios-title-text-color: white;
+$toolbar-md-title-text-color: white;

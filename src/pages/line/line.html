@@ -1,33 +1,29 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>
+    <ion-title mode="md">
       Waiting Line
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
+  <div class="content">
+    <div class="round-container">
+      <div class="round-background"></div>
+    </div>
 
-  <ion-row>
-    <ion-col col-12>
-      <ion-searchbar
-      debounce="500"
-      mode="ios"
-      placeholder="Search..."
-      autocomplete>
-      </ion-searchbar>
-    </ion-col>
-  </ion-row>
-
-  <ion-row class="list-container">
-    <ion-col col-12 *ngFor="let lineItem of [1,2,3,4]">
-      <ion-card mode="ios" class="customer-card">
-        <ion-card-header>
-          <div class="customer-name">Nombre del cliente</div>
-          <div class="barber"><b>Barber: </b>Nombre del barbero</div>
-        </ion-card-header>
-      </ion-card>
-    </ion-col>
-  </ion-row>
-
+    <ion-row class="list-container">
+      <ion-col col-12 *ngFor="let listItem of [1,2,3,4,5,6,7,8,9,12,2,3,4,5,5,3,3,3,3,3,3,3,3,3,3]; let i = index;">
+        <ion-card mode="ios" class="customer-card">
+          <div class="line-position-container">
+            <span>{{ i + 1 }}</span>
+          </div>
+          <ion-card-header>
+            <div class="customer-name">Customer name</div>
+            <div class="barber-name"><b>Barber: </b>Barber name</div>
+          </ion-card-header>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </div>
 </ion-content>
