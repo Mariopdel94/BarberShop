@@ -9,12 +9,25 @@ import { NavController, AlertController } from 'ionic-angular';
   templateUrl: 'line.html'
 })
 export class LinePage {
+  private timeInterval: any;
 
   constructor(
     public navCtrl: NavController,
     public dataProvider: DataProvider,
     public alertController: AlertController,
   ) { }
+
+  public ionViewWillEnter() {
+    this.timeInterval = setInterval(() => {
+      this.dataProvider.customerLine.forEach(customer => {
+        this.getCustomerETA(customer);
+      });
+    }, 1000)
+  }
+
+  public ionViewWillLeave() {
+    clearInterval(this.timeInterval);
+  }
 
   public async confirmCustomerMovement(customer: Customer) {
     const alert = await this.alertController.create({
@@ -119,6 +132,75 @@ export class LinePage {
 
     /* Display the alert */
     await alert.present();
+  }
+
+  private getCustomerETA(customer: Customer) {
+    // Which barber was selected by the user?
+    const selectedBarber = customer.selectedBarber;
+
+    // Check specific barbers availability
+    if (selectedBarber.id) {
+      // console.log('He selected a specific barber');
+      // If barber is available ETA = 0;
+      if (!selectedBarber.customerOnChairName) {
+        // console.log('He selected a specific barber and barber is available');
+        customer.eta = `Ready to go with: <b>${selectedBarber.name}</b>`;
+        return;
+      } else {
+        // console.log('He selected a specific barber and barber is NOT available');
+        // If customer wants an specific barber but barber is busy. Calcula the ETA on that specific barber.
+        // Get all customers of that barber.
+        const customers = this.dataProvider.customerLine.filter(cust => cust.selectedBarber.id === selectedBarber.id);
+
+        // Get the place on the line of that customer by index in the array
+        const customerPlaceInLine = customers.findIndex(cust => cust.id === customer.id) + 1;
+        customer.eta = `ETA with <b>${selectedBarber.name}</b> is: <b>${this.calculateETA(customer.clone().arrivalTime, customerPlaceInLine)}</b>`;
+        return;
+      }
+    } else {
+      // console.log('He DIDN\'T selected a specific barber');
+      // If customer goes with any barber check for all barbers availability
+      const barber = this.dataProvider.barbers.find(barber => !barber.customerOnChairName && barber.id);
+      // console.log('He DIDN\'T selected a specific barber AND a barber is available');
+      if (barber) {
+        // If a barber was found, it means the barber is available. ETA = 0;
+        customer.eta = `Ready to go with <b>${barber.name}</b>`;
+        return;
+      } else {
+        // console.log('He DIDN\'T selected a specific barber AND a barber is NOT available');
+        // Make sure no ETA was calculated before
+        customer.eta = '';
+
+        // If no barber was found, it means all barbers are busy. Calculate ETA on all barbers.
+        this.dataProvider.barbers.filter(barber => barber.id).forEach(barber => {
+          // console.log('going through each barber...', barber);
+          // Get all customers of current barber in the iteration AND that got before him.
+          const customers = this.dataProvider.customerLine.filter(cust => cust.selectedBarber.id === selectedBarber.id && (customer.clone().arrivalTime.getTime() < cust.arrivalTime.getTime()));
+          // If he wants to go with that barber he would be last on line
+          customer.eta += `ETA with <b>${barber.name}</b> is <b>${this.calculateETA(customer.clone().arrivalTime, customers.length + 1)}</b><br>`;
+        });
+      }
+    }
+  }
+
+  private calculateETA(arrivalTime: Date, placeInLine: number) {
+    // Set the date we're counting down to
+    // In this case 15 minutes from when the customer arrived
+    const countDownDate = new Date(new Date(new Date().setMinutes(arrivalTime.getMinutes() + (15 * placeInLine))).setSeconds(arrivalTime.getSeconds())).getTime();
+
+    // Get today's date and time
+    const now = new Date().getTime();
+
+    // Find the distance between now and the count down date
+    const distance = countDownDate - now;
+
+    // Time calculations for hours, minutes and seconds
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    // Output the eta
+    return hours ? `${hours}:${minutes}:${seconds}` : `${minutes}:${seconds}`;
   }
 
 }

@@ -38,6 +38,9 @@
               <ion-icon name="md-open"></ion-icon>
             </div>
           </ion-card-header>
+          <ion-card-content>
+            <span [innerHTML]="customer.eta"></span>
+          </ion-card-content>
         </ion-card>
       </ion-col>
       <ion-col class="animated bounceInLeft" col-12 *ngIf="!dataProvider.customerLine.length">

@@ -5,6 +5,8 @@ export class Customer {
   public fullName = '';
   public phoneNumber = '';
   public selectedBarber: Barber = new Barber();
+  public arrivalTime: Date;
+  public eta = '';
 
   constructor() {}
 
@@ -17,6 +19,8 @@ export class Customer {
     this.fullName = String(obj.fullName || this.fullName || '');
     this.phoneNumber = String(obj.phoneNumber || this.phoneNumber || '');
     this.selectedBarber = Barber.parse(obj.selectedBarber || this.selectedBarber || new Barber());
+    this.arrivalTime = obj.arrivalTime || this.arrivalTime || new Date();
+    this.eta = String(obj.eta || this.eta || '');
     return this;
   }
 

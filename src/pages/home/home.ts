@@ -2,7 +2,6 @@ import { DataProvider } from '../../providers/data/data';
 import { Component } from '@angular/core';
 import { NavController, AlertController } from 'ionic-angular';
 import { Customer } from '../../app/models/customer.model';
-import { Barber } from '../../app/models/barber.model';
 
 @Component({
   selector: 'page-home',
@@ -26,7 +25,9 @@ export class HomePage {
       Add the customer to the line by pushing it into the array.
       Can't be the ID because the ID will never stop incrementing, but the place in line could be 1 multiple times.
     */
+    this.customer.arrivalTime = new Date();
     this.dataProvider.customerLine.push(this.customer.clone());
+    console.log(this.dataProvider.customerLine);
     this.seatCustomer();
   }
 
