@@ -34,6 +34,17 @@ page-home {
   .submit-button {
     margin-top: 1rem;
   }
+
+  @media screen and (min-width: 412px) {
+    ion-content {
+      &::before {
+        width: calc(411px * 80 / 100);
+        height: calc(411px * 80 / 100);
+        bottom: calc(411px * -30 / 100);
+        right: calc(411px * -10 / 100);
+      }
+    }
+  }
 }
 
 @keyframes fadeInUp {

@@ -84,6 +84,13 @@ page-line {
     }
   }
 
-
+  @media screen and (min-width: 412px) {
+    .round-background {
+      width: calc(411px * 80 / 100);
+      height: calc(411px * 80 / 100);
+      top: calc(411px * -30 / 100);
+      right: calc(411px * -10 / 100);
+    }
+  }
 
 }
