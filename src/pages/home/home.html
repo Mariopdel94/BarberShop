@@ -34,7 +34,7 @@
     </ion-item>
     <ion-item>
       <ion-label>Barber</ion-label>
-      <ion-select [(ngModel)]="selectedBarber" name="selectedBarber" required value="0" okText="Ok" cancelText="Cancel">
+      <ion-select [(ngModel)]="customer.selectedBarber" name="selectedBarber" required okText="Ok" cancelText="Cancel">
         <ion-option [value]="barber" *ngFor="let barber of barbers">{{ barber.name }}</ion-option>
       </ion-select>
     </ion-item>

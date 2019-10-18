@@ -1,9 +1,9 @@
+import { Customer } from './../../app/models/customer.model';
 import { Injectable } from '@angular/core';
 
 @Injectable()
 export class HomeDataProvider {
-  public currentCustomers = 0;
-
+  public customerLine: Customer[] = [];
 
   constructor() { }
 

@@ -1,8 +1,10 @@
+import { Barber } from './barber.model';
+
 export class Customer {
-  public id = 0;
+  public id = '';
   public fullName = '';
   public phoneNumber = '';
-  public placeInLine = 0;
+  public selectedBarber: Barber = new Barber();
 
   constructor() {}
 
@@ -11,11 +13,18 @@ export class Customer {
   }
 
   public set(obj: any): this {
-    this.id = Number(obj.id || this.id || 0);
+    this.id = this.uuidv4();
     this.fullName = String(obj.fullName || this.fullName || '');
     this.phoneNumber = String(obj.phoneNumber || this.phoneNumber || '');
-    this.placeInLine = Number(obj.placeInLine || this.placeInLine || 0);
+    this.selectedBarber = Barber.parse(obj.selectedBarber || this.selectedBarber || new Barber());
     return this;
+  }
+
+  private uuidv4() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
   }
 
   public clone(): Customer {

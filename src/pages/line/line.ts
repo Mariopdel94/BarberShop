@@ -1,3 +1,4 @@
+import { HomeDataProvider } from './../../providers/home-data/home-data';
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
@@ -7,8 +8,9 @@ import { NavController } from 'ionic-angular';
 })
 export class LinePage {
 
-  constructor(public navCtrl: NavController) {
-
-  }
+  constructor(
+    public navCtrl: NavController,
+    public homeDataProvider: HomeDataProvider
+  ) { }
 
 }
