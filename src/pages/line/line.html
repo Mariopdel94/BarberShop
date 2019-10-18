@@ -9,11 +9,17 @@
 <ion-content>
   <div class="content">
     <div class="round-container">
-      <div class="round-background"></div>
+      <div class="animated fadeInRight round-background"></div>
     </div>
 
     <ion-row class="list-container">
-      <ion-col col-12 *ngFor="let customer of homeDataProvider.customerLine; let i = index;">
+      <ion-col
+      col-12
+      class="animated"
+      [style.animation-delay]="i / 10 / 2 + 's'"
+      [class.bounceInLeft]="i % 2"
+      [class.bounceInRight]="!(i % 2)"
+      *ngFor="let customer of homeDataProvider.customerLine; let i = index;">
         <ion-card mode="ios" class="customer-card">
           <div class="line-position-container">
             <span>{{ i + 1 }}</span>
@@ -31,7 +37,7 @@
           </ion-card-header>
         </ion-card>
       </ion-col>
-      <ion-col col-12 *ngIf="!homeDataProvider.customerLine.length">
+      <ion-col class="animated bounceInLeft" col-12 *ngIf="!homeDataProvider.customerLine.length">
         <ion-card mode="ios" class="customer-card">
           <ion-card-header>
             <div class="customer-name">There aren't any customers yet</div>

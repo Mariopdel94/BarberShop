@@ -11,6 +11,8 @@ page-home {
       border-radius: 50%;
       bottom: -30vw;
       right: -10vw;
+      animation-name: fadeInUp;
+      animation-duration: 0.5s;
     }
   }
 
@@ -31,5 +33,17 @@ page-home {
 
   .submit-button {
     margin-top: 1rem;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 100%, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
   }
 }
