@@ -32,7 +32,7 @@
     <ion-item>
       <ion-label>Barber</ion-label>
       <ion-select [(ngModel)]="customer.selectedBarber" name="selectedBarber" required okText="Ok" cancelText="Cancel">
-        <ion-option [value]="barber" *ngFor="let barber of barbers">{{ barber.name }}</ion-option>
+        <ion-option [value]="barber" *ngFor="let barber of dataProvider.barbers">{{ barber.name }}</ion-option>
       </ion-select>
     </ion-item>
     <button class="submit-button" ion-button type="submit" block [disabled]="customerForm.form.invalid">Submit</button>

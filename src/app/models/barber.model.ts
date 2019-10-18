@@ -1,6 +1,7 @@
 export class Barber {
   public id = 0;
   public name = '';
+  public customerOnChairName = '';
 
   constructor() {}
 
@@ -11,6 +12,7 @@ export class Barber {
   public set(obj: any): this {
     this.id = Number(obj.id || this.id || 0);
     this.name = String(obj.name || this.name || '');
+    this.customerOnChairName = String(obj.customerOnChairName || this.customerOnChairName || '');
     return this;
   }
 

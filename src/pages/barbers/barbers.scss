@@ -1,3 +1,88 @@
 page-barbers {
 
+  .round-container {
+    position: sticky;
+    top: 2rem;
+  }
+
+  .round-background {
+    position: absolute;
+    width: 80vw;
+    height: 80vw;
+    background: linear-gradient(rgba(#3171e0, 0.33), rgba(#0cd1e8, 0.20));
+    z-index: 0;
+    border-radius: 50%;
+    top: 50vw;
+    left: -30vw;
+    animation-duration: 0.5s;
+  }
+
+  ion-card {
+    background: white !important;
+  }
+
+  ion-row {
+    margin-bottom: 1rem;
+  }
+
+  ion-col {
+    padding: 0 !important;
+  }
+
+  ion-searchbar {
+    background: white !important;
+  }
+
+  .list-container {
+    padding-left: 2rem;
+    margin-top: 2rem;
+    margin-bottom: 3rem;
+
+    .barber-card {
+      position: relative;
+      padding-left: 1rem;
+      overflow: visible;
+      margin-bottom: 0;
+
+      .barber-id-container {
+        border-radius: 50%;
+        overflow: hidden;
+        background-color: #3880ff;
+        width: 3.5rem;
+        height: 3.5rem;
+        position: absolute;
+        top: 50%;
+        left: 0;
+        z-index: 40;
+        transform: translate(-60%, -50%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+      }
+
+      .barber-name {
+        font-size: 1.4rem;
+        font-weight: bold;
+      }
+
+      .customer-name {
+        font-size: 1.1rem;
+        color: #a4a4a4;
+      }
+
+      .finish-customer-button {
+        position: absolute;
+        top: 50%;
+        right: 2rem;
+        transform: translateY(-50%);
+        ion-icon {
+          font-size: 2.25rem;
+        }
+      }
+    }
+  }
+
+
+
 }

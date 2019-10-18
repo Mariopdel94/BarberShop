@@ -1,17 +1,45 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>
-      Contact
+    <ion-title mode="md">
+      Barbers
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
-  <ion-list>
-    <ion-list-header>Follow us on Twitter</ion-list-header>
-    <ion-item>
-      <ion-icon name="ionic" item-start></ion-icon>
-      @ionicframework
-    </ion-item>
-  </ion-list>
+  <div class="content">
+    <div class="round-container">
+      <div class="animated fadeInLeft round-background"></div>
+    </div>
+
+    <ion-row class="list-container">
+      <ion-col
+      col-12
+      class="animated"
+      [style.animation-delay]="i / 10 / 2 + 's'"
+      [class.bounceInLeft]="i % 2"
+      [class.bounceInRight]="!(i % 2)"
+      *ngFor="let barber of dataProvider.barbers; let i = index;">
+        <ion-card mode="ios" class="barber-card" *ngIf="i">
+          <div class="barber-id-container">
+            <span>{{ i }}</span>
+          </div>
+          <ion-card-header>
+            <div class="barber-name">
+              {{ barber.name }}
+            </div>
+            <div class="customer-name" *ngIf="barber.customerOnChairName">
+              <b>Currently with: </b>{{ barber.customerOnChairName }}
+            </div>
+            <div class="customer-name" *ngIf="!barber.customerOnChairName">
+              Waiting for the next customer
+            </div>
+            <div class="finish-customer-button">
+              <ion-icon name="ios-checkmark-circle-outline"></ion-icon>
+            </div>
+          </ion-card-header>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </div>
 </ion-content>
