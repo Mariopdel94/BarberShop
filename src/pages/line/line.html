@@ -48,7 +48,8 @@
             </div>
           </ion-card-header>
           <ion-card-content>
-            <span>ETA: <b>{{ customer.eta }}</b> minutes</span>
+            <span *ngIf="customer.eta">ETA: <b>{{ customer.eta }}</b> minutes</span>
+            <span *ngIf="!customer.eta">Customer ready to go</span>
           </ion-card-content>
         </ion-card>
       </ion-col>
