@@ -1,5 +1,4 @@
 import { Barber } from './../../app/models/barber.model';
-import { Customer } from './../../app/models/customer.model';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NavController, AlertController } from 'ionic-angular';
 import { DataProvider } from '../../providers/data/data';
