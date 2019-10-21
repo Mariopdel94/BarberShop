@@ -32,7 +32,6 @@ export class BarbersPage implements OnInit, OnDestroy {
       this.dataProvider.barbers.forEach(barber => {
         if (barber.customerOnChairName) {
           barber.timeElapsedWithCustomer++;
-          console.log(barber.timeElapsedWithCustomer);
           this.dataProvider.barberBusyTime.next(barber);
         }
       });
@@ -73,7 +72,13 @@ export class BarbersPage implements OnInit, OnDestroy {
   private finishWithCustomer(barber: Barber) {
     barber.customerOnChairName = '';
     barber.timeElapsedWithCustomer = 0;
-    barber.customersScheduled.splice(0, 1);
+    barber.customersScheduled.forEach(customer => {
+      const cust = this.dataProvider.customerLine.find(cust => cust.id === customer);
+      if (cust) {
+        cust.eta = 0;
+      }
+    });
+    barber.customersScheduled = [];
     this.dataProvider.barberDoneWithCustomer.next(barber);
   }
 

@@ -31,13 +31,17 @@ export class LinePage implements OnInit, OnDestroy {
     this.dataProvider.barberBusyTime
     .takeUntil(this._destroyed$)
     .subscribe((barber: Barber) => {
-      this._recalculateETA(barber);
+      const barberCustomers = this.dataProvider.customerLine.filter(cust => cust.selectedBarber.id === barber.id);
+      barberCustomers.forEach(customer => {
+        customer.eta = customer.eta - barber.timeElapsedWithCustomer;
+      })
     })
 
     this.dataProvider.barberDoneWithCustomer
     .takeUntil(this._destroyed$)
     .subscribe((barber: Barber) => {
-      this._recalculateETA(barber);
+      console.log('barber done');
+
     })
   }
 
@@ -48,13 +52,6 @@ export class LinePage implements OnInit, OnDestroy {
   ngOnDestroy() {
     this._destroyed$.next(true);
     this._destroyed$.complete();
-  }
-
-  private _recalculateETA(barber: Barber) {
-    const barberCustomers = this.dataProvider.customerLine.filter(cust => cust.selectedBarber.id === barber.id);
-    barberCustomers.forEach(customer => {
-      customer.eta = customer.eta - barber.timeElapsedWithCustomer;
-    })
   }
 
   public async confirmCustomerMovement(customer: Customer) {
@@ -181,6 +178,7 @@ export class LinePage implements OnInit, OnDestroy {
 
   private _getCustomersETA() {
     const customers = this.dataProvider.customerLine.filter(cust => !cust.eta); // For easier reading on this method
+    console.log(customers);
     const barbers = this.dataProvider.barbers.filter(barbs => barbs.id); // For easier reading on this method
 
     customers.forEach(customer => {
