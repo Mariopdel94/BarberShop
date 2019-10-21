@@ -38,7 +38,8 @@ page-line {
     margin-top: 2rem;
     margin-bottom: 3rem;
 
-    .customer-card {
+    .customer-card,
+    .time-card {
       position: relative;
       padding-left: 1rem;
       padding-right: 4.5rem;
@@ -62,7 +63,8 @@ page-line {
         color: white;
       }
 
-      .customer-name {
+      .customer-name,
+      .time {
         font-size: 1.4rem;
         font-weight: bold;
       }

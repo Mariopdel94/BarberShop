@@ -31,10 +31,13 @@ export class LinePage implements OnInit, OnDestroy {
     this.dataProvider.barberBusyTime
     .takeUntil(this._destroyed$)
     .subscribe((barber: Barber) => {
-      const barberCustomers = this.dataProvider.customerLine.filter(cust => cust.selectedBarber.id === barber.id);
-      barberCustomers.forEach(customer => {
-        customer.eta = customer.eta - barber.timeElapsedWithCustomer;
-      })
+      this._recalculateETA(barber);
+    })
+
+    this.dataProvider.barberDoneWithCustomer
+    .takeUntil(this._destroyed$)
+    .subscribe((barber: Barber) => {
+      this._recalculateETA(barber);
     })
   }
 
@@ -45,6 +48,13 @@ export class LinePage implements OnInit, OnDestroy {
   ngOnDestroy() {
     this._destroyed$.next(true);
     this._destroyed$.complete();
+  }
+
+  private _recalculateETA(barber: Barber) {
+    const barberCustomers = this.dataProvider.customerLine.filter(cust => cust.selectedBarber.id === barber.id);
+    barberCustomers.forEach(customer => {
+      customer.eta = customer.eta - barber.timeElapsedWithCustomer;
+    })
   }
 
   public async confirmCustomerMovement(customer: Customer) {
@@ -116,8 +126,13 @@ export class LinePage implements OnInit, OnDestroy {
           text: 'Ok',
           handler: () => {
             console.log('Ok clicked');
-            customer.selectedBarber = this.dataProvider.barbers[0];
-            this.moveCustomerToChair(customer);
+            const temporalBarber = customer.selectedBarber.clone();
+            customer.selectedBarber = this._getBarberWithLessLine();
+            if (temporalBarber === customer.selectedBarber) {
+              this.allBarbersBusy(customer);
+            } else {
+              this.moveCustomerToChair(customer);
+            }
           }
         }
       ]
@@ -130,7 +145,7 @@ export class LinePage implements OnInit, OnDestroy {
   private async allBarbersBusy(customer: Customer) {
     const alert = await this.alertController.create({
       title: 'All barbers unavailable',
-      message: `Sorry, ${customer.fullName} all barbers are busy right now. Please wait for the next barber to be available`,
+      message: `Sorry, ${customer.fullName} all barbers are busy right now. Please wait for the next barber to be available.`,
       buttons: [
         {
           text: 'Cancel',
@@ -152,28 +167,26 @@ export class LinePage implements OnInit, OnDestroy {
     await alert.present();
   }
 
+  private _getBarberWithLessLine() {
+    const barbers = this.dataProvider.barbers.filter(barbs => barbs.id); // For easier reading on this method
+    let barberWithLessLine = barbers[0].clone();
+    /* We search for the barber with less line at the moment */
+    barbers.forEach(barber => {
+      if (barber.customersScheduled.length < barberWithLessLine.customersScheduled.length) {
+        barberWithLessLine = barber.clone();
+      }
+    });
+    return barberWithLessLine;
+  }
+
   private _getCustomersETA() {
     const customers = this.dataProvider.customerLine.filter(cust => !cust.eta); // For easier reading on this method
     const barbers = this.dataProvider.barbers.filter(barbs => barbs.id); // For easier reading on this method
-    console.log(customers);
-    console.log(barbers);
-
-    /* First let's clear our customers scheduled.
-    Because since we call this function each time the user enters the page we need to reset the info. */
-    // barbers.forEach(barber => {
-    //   barber.customersScheduled = [];
-    // });
 
     customers.forEach(customer => {
       // If customer goes with whatever is first, we need to look which barber has less line at the moment.
       if (!(customer.selectedBarber && customer.selectedBarber.id)) {
-        let barberWithLessLine = barbers[0].clone();
-        /* We search for the barber with less line at the moment */
-        barbers.forEach(barber => {
-          if (barber.customersScheduled.length < barberWithLessLine.customersScheduled.length) {
-            barberWithLessLine = barber.clone();
-          }
-        });
+        const barberWithLessLine = this._getBarberWithLessLine();
         /* We assign that barber to the customer currently on the iteration */
         customer.selectedBarber = barberWithLessLine.clone();
       }

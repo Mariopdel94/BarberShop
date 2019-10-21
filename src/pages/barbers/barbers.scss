@@ -38,7 +38,8 @@ page-barbers {
     margin-top: 2rem;
     margin-bottom: 3rem;
 
-    .barber-card {
+    .barber-card,
+    .time-card {
       position: relative;
       padding-left: 1rem;
       overflow: visible;
@@ -61,7 +62,8 @@ page-barbers {
         color: white;
       }
 
-      .barber-name {
+      .barber-name,
+      .time {
         font-size: 1.4rem;
         font-weight: bold;
       }

@@ -14,9 +14,9 @@
 
     <ion-row class="list-container" *ngIf="dataProvider">
       <ion-col col-12>
-        <ion-card mode="ios" class="customer-card">
+        <ion-card mode="ios" class="time-card">
           <ion-card-header>
-            <div class="customer-name">
+            <div class="time">
               Current time: {{ currentTime | date: 'mediumTime' }}
             </div>
           </ion-card-header>
@@ -43,7 +43,7 @@
             <div class="customer-name" *ngIf="!barber.customerOnChairName">
               Waiting for the next customer
             </div>
-            <div class="finish-customer-button" (click)="finishWithCustomer()">
+            <div class="finish-customer-button" (click)="confirmEndOfService(barber)">
               <ion-icon name="ios-checkmark-circle-outline"></ion-icon>
             </div>
           </ion-card-header>

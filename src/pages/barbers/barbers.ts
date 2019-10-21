@@ -1,7 +1,7 @@
 import { Barber } from './../../app/models/barber.model';
 import { Customer } from './../../app/models/customer.model';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, AlertController } from 'ionic-angular';
 import { DataProvider } from '../../providers/data/data';
 import { Subject } from 'rxjs';
 import { timer } from 'rxjs/observable/timer';
@@ -16,7 +16,8 @@ export class BarbersPage implements OnInit, OnDestroy {
 
   constructor(
     public navCtrl: NavController,
-    public dataProvider: DataProvider
+    public dataProvider: DataProvider,
+    public alertController: AlertController,
   ) { }
 
   ngOnInit() {
@@ -32,6 +33,7 @@ export class BarbersPage implements OnInit, OnDestroy {
       this.dataProvider.barbers.forEach(barber => {
         if (barber.customerOnChairName) {
           barber.timeElapsedWithCustomer++;
+          console.log(barber.timeElapsedWithCustomer);
           this.dataProvider.barberBusyTime.next(barber);
         }
       });
@@ -43,7 +45,36 @@ export class BarbersPage implements OnInit, OnDestroy {
     this._destroyed$.complete();
   }
 
-  public finishWithCustomer(barber: Barber) {
+  public async confirmEndOfService(barber: Barber) {
+    const alert = await this.alertController.create({
+      title: 'You finished?',
+      message: `Please confirm you finished with ${barber.customerOnChairName}`,
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Ok',
+          handler: () => {
+            console.log('Ok clicked');
+            this.finishWithCustomer(barber);
+          }
+        }
+      ]
+    });
+
+    /* Display the alert */
+    await alert.present();
+  }
+
+  private finishWithCustomer(barber: Barber) {
+    barber.customerOnChairName = '';
+    barber.timeElapsedWithCustomer = 0;
+    barber.customersScheduled.splice(0, 1);
     this.dataProvider.barberDoneWithCustomer.next(barber);
   }
 
