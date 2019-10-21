@@ -3,6 +3,7 @@ export class Barber {
   public name = '';
   public customerOnChairName = '';
   public customersScheduled: string[] = [];
+  public timeElapsedWithCustomer = 0;
 
   constructor() {}
 
@@ -15,6 +16,7 @@ export class Barber {
     this.name = String(obj.name || this.name || '');
     this.customerOnChairName = String(obj.customerOnChairName || this.customerOnChairName || '');
     this.customersScheduled = (obj.customersScheduled || this.customersScheduled || []);
+    this.timeElapsedWithCustomer = Number(obj.timeElapsedWithCustomer || this.timeElapsedWithCustomer || 0);
     return this;
   }
 

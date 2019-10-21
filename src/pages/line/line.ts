@@ -27,27 +27,24 @@ export class LinePage implements OnInit, OnDestroy {
     .subscribe(() => {
       this.currentTime = new Date();
     });
+
+    this.dataProvider.barberBusyTime
+    .takeUntil(this._destroyed$)
+    .subscribe((barber: Barber) => {
+      const barberCustomers = this.dataProvider.customerLine.filter(cust => cust.selectedBarber.id === barber.id);
+      barberCustomers.forEach(customer => {
+        customer.eta = customer.eta - barber.timeElapsedWithCustomer;
+      })
+    })
+  }
+
+  public ionViewWillEnter() {
+    this._getCustomersETA();
   }
 
   ngOnDestroy() {
     this._destroyed$.next(true);
     this._destroyed$.complete();
-  }
-
-  public ionViewWillEnter() {
-    this._getCustomersETA();
-    timer(0, 60000)
-    .takeUntil(this._destroyed$)
-    .subscribe(() => {
-      this.dataProvider.customerLine.forEach(customer => {
-        if (customer.eta > 0) {
-          customer.eta--;
-        }
-      });
-    });
-  }
-
-  public ionViewWillLeave() {
   }
 
   public async confirmCustomerMovement(customer: Customer) {
@@ -195,7 +192,7 @@ export class LinePage implements OnInit, OnDestroy {
     for a specific barber they are to calculate their ETA */
     customers.forEach(customer => {
       const index = customer.selectedBarber.customersScheduled.findIndex(customerId => customerId === customer.id);
-      customer.eta = (index * this._serviceTime) + 1;
+      customer.eta = (index * this._serviceTime) - customer.selectedBarber.timeElapsedWithCustomer;
     });
   }
 

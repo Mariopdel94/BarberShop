@@ -1,6 +1,7 @@
 import { Barber } from './../../app/models/barber.model';
 import { Customer } from '../../app/models/customer.model';
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 
 @Injectable()
 export class DataProvider {
@@ -23,6 +24,8 @@ export class DataProvider {
     //   name: 'Jane Doe'
     // }
   ].map(barber => Barber.parse(barber)); // Let's parse it so we transform it into a Barber object
+  public barberBusyTime: Subject<Barber> = new Subject();
+  public barberDoneWithCustomer: Subject<Barber> = new Subject();
 
   constructor() { }
 
