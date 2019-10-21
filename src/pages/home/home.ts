@@ -27,7 +27,6 @@ export class HomePage {
     */
     this.customer.arrivalTime = new Date();
     this.dataProvider.customerLine.push(this.customer.clone());
-    console.log(this.dataProvider.customerLine);
     this.seatCustomer();
   }
 
@@ -51,7 +50,6 @@ export class HomePage {
         {
           text: 'Ok',
           handler: () => {
-            console.log('Ok clicked');
             this.resetForm();
           }
         }

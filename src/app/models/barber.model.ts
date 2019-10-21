@@ -2,7 +2,7 @@ export class Barber {
   public id = 0;
   public name = '';
   public customerOnChairName = '';
-  public customersScheduled = false;
+  public customersScheduled: string[] = [];
 
   constructor() {}
 
@@ -14,7 +14,7 @@ export class Barber {
     this.id = Number(obj.id || this.id || 0);
     this.name = String(obj.name || this.name || '');
     this.customerOnChairName = String(obj.customerOnChairName || this.customerOnChairName || '');
-    this.customersScheduled = Boolean(obj.customersScheduled || this.customersScheduled || false);
+    this.customersScheduled = (obj.customersScheduled || this.customersScheduled || []);
     return this;
   }
 

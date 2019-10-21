@@ -6,7 +6,7 @@ export class Customer {
   public phoneNumber = '';
   public selectedBarber: Barber = new Barber();
   public arrivalTime: Date;
-  public eta = '';
+  public eta = 0;
 
   constructor() {}
 
@@ -20,7 +20,7 @@ export class Customer {
     this.phoneNumber = String(obj.phoneNumber || this.phoneNumber || '');
     this.selectedBarber = Barber.parse(obj.selectedBarber || this.selectedBarber || new Barber());
     this.arrivalTime = obj.arrivalTime || this.arrivalTime || new Date();
-    this.eta = String(obj.eta || this.eta || '');
+    this.eta = Number(obj.eta || this.eta || 0);
     return this;
   }
 

@@ -12,6 +12,7 @@ import { timer } from 'rxjs/observable/timer';
 })
 export class LinePage implements OnInit, OnDestroy {
   private _destroyed$ = new Subject();
+  private _serviceTime = 15; // Time in minutes it takes.
   public currentTime = new Date();
 
   constructor(
@@ -34,7 +35,16 @@ export class LinePage implements OnInit, OnDestroy {
   }
 
   public ionViewWillEnter() {
-
+    this._getCustomersETA();
+    timer(0, 60000)
+    .takeUntil(this._destroyed$)
+    .subscribe(() => {
+      this.dataProvider.customerLine.forEach(customer => {
+        if (customer.eta > 0) {
+          customer.eta--;
+        }
+      });
+    });
   }
 
   public ionViewWillLeave() {
@@ -144,6 +154,52 @@ export class LinePage implements OnInit, OnDestroy {
     /* Display the alert */
     await alert.present();
   }
+
+  private _getCustomersETA() {
+    const customers = this.dataProvider.customerLine.filter(cust => !cust.eta); // For easier reading on this method
+    const barbers = this.dataProvider.barbers.filter(barbs => barbs.id); // For easier reading on this method
+    console.log(customers);
+    console.log(barbers);
+
+    /* First let's clear our customers scheduled.
+    Because since we call this function each time the user enters the page we need to reset the info. */
+    // barbers.forEach(barber => {
+    //   barber.customersScheduled = [];
+    // });
+
+    customers.forEach(customer => {
+      // If customer goes with whatever is first, we need to look which barber has less line at the moment.
+      if (!(customer.selectedBarber && customer.selectedBarber.id)) {
+        let barberWithLessLine = barbers[0].clone();
+        /* We search for the barber with less line at the moment */
+        barbers.forEach(barber => {
+          if (barber.customersScheduled.length < barberWithLessLine.customersScheduled.length) {
+            barberWithLessLine = barber.clone();
+          }
+        });
+        /* We assign that barber to the customer currently on the iteration */
+        customer.selectedBarber = barberWithLessLine.clone();
+      }
+
+      // We add the customer to the barber specifc line.
+      const barber = barbers.find(barb => barb.id === customer.selectedBarber.id);
+      // Make sure the customer is not already on line.
+      if (barber.customersScheduled.findIndex(customerScheduled => customerScheduled === customer.id) === -1) {
+        barber.customersScheduled.push(customer.id);
+      }
+      /* We clone again, just to add the whole customer line to the selected customer */
+      customer.selectedBarber = barber.clone();
+    });
+
+    /* After adding the customers to each specific line for each barber we need get in what place of the line
+    for a specific barber they are to calculate their ETA */
+    customers.forEach(customer => {
+      const index = customer.selectedBarber.customersScheduled.findIndex(customerId => customerId === customer.id);
+      customer.eta = (index * this._serviceTime) + 1;
+    });
+  }
+
+
 
 
 }
