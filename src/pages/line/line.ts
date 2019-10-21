@@ -160,7 +160,7 @@ export class LinePage {
     } else {
       // console.log('He DIDN\'T selected a specific barber');
       // If customer goes with any barber check for all barbers availability
-      const barber = this.dataProvider.barbers.find(barber => (!barber.customerOnChairName && barber.id));
+      const barber = (this.dataProvider.barbers).find(barb => (barb.customerOnChairName !== '' && barb.id > 0));
       // console.log('He DIDN\'T selected a specific barber AND a barber is available');
       if (barber) {
         // If a barber was found, it means the barber is available. ETA = 0;
