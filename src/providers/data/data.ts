@@ -25,7 +25,6 @@ export class DataProvider {
     // }
   ].map(barber => Barber.parse(barber)); // Let's parse it so we transform it into a Barber object
   public barberBusyTime: Subject<Barber> = new Subject();
-  public barberDoneWithCustomer: Subject<Barber> = new Subject();
 
   constructor() { }
 

@@ -36,13 +36,6 @@ export class LinePage implements OnInit, OnDestroy {
         customer.eta = customer.eta - barber.timeElapsedWithCustomer;
       })
     })
-
-    this.dataProvider.barberDoneWithCustomer
-    .takeUntil(this._destroyed$)
-    .subscribe((barber: Barber) => {
-      console.log('barber done');
-
-    })
   }
 
   public ionViewWillEnter() {

@@ -79,7 +79,6 @@ export class BarbersPage implements OnInit, OnDestroy {
       }
     });
     barber.customersScheduled = [];
-    this.dataProvider.barberDoneWithCustomer.next(barber);
   }
 
 }
